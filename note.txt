@@ -1,0 +1,1 @@
+to build lua in windows msys2 environment, execute command: make PLAT=mingw
