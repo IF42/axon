@@ -1,24 +1,14 @@
 -- line comment
 
 --TODO asdfasdfasdf
-
+"""
+TODO: 
+"""
 function main() {
-    number = 0
+    a = {1, 2}
 
-    for(i = 1, 100000000, 1) {
-        number = number + i
-    }
- 
-   if() {
-   
-   } elif() {
-   } else {
-
-   }
-
-  
-    b = nil
-    print(number)
+    print(a[0])
+    print(a[1])
 }
 
 main()
