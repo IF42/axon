@@ -1,0 +1,11 @@
+
+
+number = 0
+
+for(i = 1, 100000000, 1) {
+    number = number + i
+}
+
+print(number)
+
+

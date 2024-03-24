@@ -40,10 +40,10 @@
 
 /* ORDER RESERVED */
 static const char *const luaX_tokens [] = {
-    "and", "break", "do", "else", "elseif",
-    "end", "false", "for", "function", "goto", "if",
-    "in", "local", "nil", "not", "or", "repeat",
-    "return", "then", "true", "until", "while",
+    "and", "break", "else", "elif"
+    , "false", "for", "function", "goto", "if",
+    "in", "local", "nil", "not", "or", 
+    "return", "true", "while",
     "//", "..", "...", "==", ">=", "<=", "~=",
     "<<", ">>", "::", "<eof>",
     "<number>", "<integer>", "<name>", "<string>"
@@ -339,7 +339,7 @@ static void read_long_string (LexState *ls, SemInfo *seminfo, size_t sep) {
   for (;;) {
     switch (ls->current) {
       case EOZ:  /* error */
-        const char *what = (seminfo ? "string" : "comment");
+        const char *what = "string" ;
         const char *msg = luaO_pushfstring(ls->L, "unfinished long %s (starting at line %d)", what, line);
         lexerror(ls, msg, TK_EOS);
 
@@ -355,18 +355,10 @@ static void read_long_string (LexState *ls, SemInfo *seminfo, size_t sep) {
       case '\r': {
         save(ls, '\n');
         inclinenumber(ls);
-
-        if (!seminfo) {
-            luaZ_resetbuffer(ls->buff);  /* avoid wasting space */
-        }
-
         break;
       }
       default: {
-        if (seminfo) 
-            save_and_next(ls);
-        else 
-            next(ls);
+        save_and_next(ls);
       }
     }
   } 
@@ -631,8 +623,7 @@ static int llex (LexState *ls, SemInfo *seminfo) {
           else {
             return TK_NAME;
           }
-        }
-        else {  /* single-char tokens ('+', '*', '%', '{', '}', ...) */
+        } else {  /* single-char tokens ('+', '*', '%', '{', '}', ...) */
           int c = ls->current;
           next(ls);
           return c;
@@ -649,8 +640,7 @@ void luaX_next (LexState *ls) {
   if (ls->lookahead.token != TK_EOS) {  /* is there a look-ahead token? */
     ls->t = ls->lookahead;  /* use this one */
     ls->lookahead.token = TK_EOS;  /* and discharge it */
-  }
-  else
+  } else
     ls->t.token = llex(ls, &ls->t.seminfo);  /* read next token */
 }
 
