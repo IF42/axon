@@ -211,7 +211,7 @@
 		LUA_LDIR"?.lua;"  LUA_LDIR"?\\init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua;" \
 		LUA_SHRDIR"?.lua;" LUA_SHRDIR"?\\init.lua;" \
-		".\\?.lua;" ".\\?\\init.lua"
+		".\\?.ease;" ".\\?\\init.lua"
 #endif
 
 #if !defined(LUA_CPATH_DEFAULT)
@@ -231,7 +231,7 @@
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
-		"./?.lua;" "./?/init.lua"
+		"./?.ease;" "./?/init.lua"
 #endif
 
 #if !defined(LUA_CPATH_DEFAULT)
@@ -315,7 +315,7 @@
     defined(__ELF__)		/* { */
 #define LUAI_FUNC	__attribute__((visibility("internal"))) extern
 #else				/* }{ */
-#define LUAI_FUNC	extern
+#define LUAI_FUNC extern
 #endif				/* } */
 
 #define LUAI_DDEC(dec)	LUAI_FUNC dec

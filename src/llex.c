@@ -42,7 +42,7 @@
 static const char *const luaX_tokens [] = {
     "and", "break", "else", "elif"
     , "false", "for", "function", "goto", "if",
-    "in", "local", "nil", "not", "or", 
+    "in", "local", "null", "not", "or", 
     "return", "true", "while",
     "//", "..", "...", "==", ">=", "<=", "~=",
     "<<", ">>", "::", "<eof>",
@@ -302,11 +302,12 @@ static void skip_block_comment(LexState * ls) {
 
     for(;;) {
         switch (ls->current) {
-            case EOZ:  /* error */
+            case EOZ: { /* error */
                 const char *what = "comment";
                 const char *msg = luaO_pushfstring(ls->L, "unfinished long %s (starting at line %d)", what, line);
                 lexerror(ls, msg, TK_EOS);
                 break;  /* to avoid warnings */
+            }
             case '\n': 
             case '\r': 
                 inclinenumber(ls);
@@ -338,12 +339,13 @@ static void read_long_string (LexState *ls, SemInfo *seminfo, size_t sep) {
 
   for (;;) {
     switch (ls->current) {
-      case EOZ:  /* error */
+      case EOZ: {  /* error */
         const char *what = "string" ;
         const char *msg = luaO_pushfstring(ls->L, "unfinished long %s (starting at line %d)", what, line);
         lexerror(ls, msg, TK_EOS);
 
         break;  /* to avoid warnings */
+        }
       case ']': 
         if (skip_sep(ls) == sep) {
           save_and_next(ls);  /* skip 2nd ']' */
@@ -496,6 +498,14 @@ static void read_string (LexState *ls, int del, SemInfo *seminfo) {
 }
 
 
+/*
+ * I dont know how to solve it differently
+ */
+static void luaX_empty_newstring(LexState * ls) {
+    luaX_newstring(ls, luaZ_buffer(ls->buff), 0);
+}
+
+
 static int llex (LexState *ls, SemInfo *seminfo) {
   luaZ_resetbuffer(ls->buff);
   for (;;) {
@@ -515,20 +525,6 @@ static int llex (LexState *ls, SemInfo *seminfo) {
 
         /* else is a comment */
         next(ls);
-        #if 0
-        if (ls->current == '[') {  /* long comment? */
-          size_t sep = skip_sep(ls);
-          luaZ_resetbuffer(ls->buff);  /* 'skip_sep' may dirty the buffer */
-
-            
-          if (sep >= 2) {
-            read_long_string(ls, NULL, sep);  /* skip long comment */
-            luaZ_resetbuffer(ls->buff);  /* previous call may dirty the buff. */
-
-            break;
-          }
-        }
-        #endif
         /* else short comment */
         while (!currIsNewline(ls) && ls->current != EOZ)
           next(ls);  /* skip until end of line (or end of file) */
@@ -579,10 +575,15 @@ static int llex (LexState *ls, SemInfo *seminfo) {
       case '"': 
         save_and_next(ls);
 
-        if (check_next1(ls, '"') && check_next1(ls, '"')) { // block comment
-            skip_block_comment(ls);
-            luaZ_resetbuffer(ls->buff);  /* previous call may dirty the buff. */
-            continue;
+        if (check_next1(ls, '"')) { // block comment
+            if(check_next1(ls, '"')) {
+                skip_block_comment(ls);
+                luaZ_resetbuffer(ls->buff);  /* previous call may dirty the buff. */
+                continue;
+            } else {
+                luaX_empty_newstring(ls);
+                return TK_STRING;
+            }
         } else {
             read_string(ls, '"', seminfo);
             return TK_STRING;

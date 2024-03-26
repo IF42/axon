@@ -1,0 +1,20 @@
+local json = { _version = "0.1.0" }
+
+
+local function lexer_init(j_str) {
+    return {
+        ["length"] = #j_str
+        , ["str"] = j_str
+        , ["index"] = 0
+        , ["row"] = 1
+        , ["column"] = 1}
+}
+
+
+function json.decode(j_str) {
+    lexer = lexer_init(j_str)
+    print(lexer.length)
+}
+
+
+return json

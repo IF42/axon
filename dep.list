@@ -1,0 +1,96 @@
+.cache/lapi.o: src/lapi.c src/lprefix.h src/lua.h src/luaconf.h src/lapi.h \
+ src/llimits.h src/lstate.h src/lobject.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldebug.h src/ldo.h src/lfunc.h src/lgc.h src/lstring.h src/ltable.h \
+ src/lundump.h src/lvm.h
+.cache/lauxlib.o: src/lauxlib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h
+.cache/lbaselib.o: src/lbaselib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lcode.o: src/lcode.c src/lprefix.h src/lua.h src/luaconf.h src/lcode.h \
+ src/llex.h src/lobject.h src/llimits.h src/lzio.h src/lmem.h \
+ src/lopcodes.h src/lparser.h src/ldebug.h src/lstate.h src/ltm.h \
+ src/ldo.h src/lgc.h src/lstring.h src/ltable.h src/lvm.h
+.cache/lcorolib.o: src/lcorolib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lctype.o: src/lctype.c src/lprefix.h src/lctype.h src/lua.h src/luaconf.h \
+ src/llimits.h
+.cache/ldblib.o: src/ldblib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/ldebug.o: src/ldebug.c src/lprefix.h src/lua.h src/luaconf.h src/lapi.h \
+ src/llimits.h src/lstate.h src/lobject.h src/ltm.h src/lzio.h src/lmem.h \
+ src/lcode.h src/llex.h src/lopcodes.h src/lparser.h src/ldebug.h \
+ src/ldo.h src/lfunc.h src/lstring.h src/lgc.h src/ltable.h src/lvm.h
+.cache/ldo.o: src/ldo.c src/lprefix.h src/lua.h src/luaconf.h src/lapi.h \
+ src/llimits.h src/lstate.h src/lobject.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldebug.h src/ldo.h src/lfunc.h src/lgc.h src/lopcodes.h \
+ src/lparser.h src/lstring.h src/ltable.h src/lundump.h src/lvm.h
+.cache/ldump.o: src/ldump.c src/lprefix.h src/ldump.h src/luaconf.h src/lstate.h \
+ src/lua.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/lundump.h
+.cache/lfunc.o: src/lfunc.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lfunc.h src/lgc.h
+.cache/lgc.o: src/lgc.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lfunc.h src/lgc.h src/lstring.h src/ltable.h
+.cache/linit.o: src/linit.c src/lprefix.h src/lua.h src/luaconf.h src/lualib.h \
+ src/lauxlib.h
+.cache/liolib.o: src/liolib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/llex.o: src/llex.c src/lprefix.h src/lua.h src/luaconf.h src/lctype.h \
+ src/llimits.h src/ldebug.h src/lstate.h src/lobject.h src/ltm.h \
+ src/lzio.h src/lmem.h src/ldo.h src/lgc.h src/llex.h src/lparser.h \
+ src/lstring.h src/ltable.h
+.cache/lmathlib.o: src/lmathlib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lmem.o: src/lmem.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lgc.h
+.cache/loadlib.o: src/loadlib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lobject.o: src/lobject.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lctype.h src/llimits.h src/ldebug.h src/lstate.h src/lobject.h \
+ src/ltm.h src/lzio.h src/lmem.h src/ldo.h src/lstring.h src/lgc.h \
+ src/lvm.h
+.cache/lopcodes.o: src/lopcodes.c src/lprefix.h src/lopcodes.h src/llimits.h \
+ src/lua.h src/luaconf.h
+.cache/loslib.o: src/loslib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lparser.o: src/lparser.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lcode.h src/llex.h src/lobject.h src/llimits.h src/lzio.h src/lmem.h \
+ src/lopcodes.h src/lparser.h src/ldebug.h src/lstate.h src/ltm.h \
+ src/ldo.h src/lfunc.h src/lstring.h src/lgc.h src/ltable.h
+.cache/lstate.o: src/lstate.c src/lprefix.h src/lua.h src/luaconf.h src/lapi.h \
+ src/llimits.h src/lstate.h src/lobject.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldebug.h src/ldo.h src/lfunc.h src/lgc.h src/llex.h src/lstring.h \
+ src/ltable.h
+.cache/lstring.o: src/lstring.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/ldebug.h src/lstate.h src/lobject.h src/llimits.h src/ltm.h \
+ src/lzio.h src/lmem.h src/ldo.h src/lstring.h src/lgc.h
+.cache/lstrlib.o: src/lstrlib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/ltable.o: src/ltable.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lgc.h src/lstring.h src/ltable.h src/lvm.h
+.cache/ltablib.o: src/ltablib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/ltm.o: src/ltm.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lgc.h src/lstring.h src/ltable.h src/lvm.h
+.cache/lua.o: src/lua.c src/lprefix.h src/lua.h src/luaconf.h src/lauxlib.h \
+ src/lualib.h
+.cache/luac.o: src/luac.c src/lprefix.h src/lua.h src/luaconf.h src/lauxlib.h \
+ src/ldebug.h src/lstate.h src/lobject.h src/llimits.h src/ltm.h \
+ src/lzio.h src/lmem.h src/lopcodes.h src/lopnames.h src/lundump.h
+.cache/lundump.o: src/lundump.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/ldebug.h src/lstate.h src/lobject.h src/llimits.h src/ltm.h \
+ src/lzio.h src/lmem.h src/ldo.h src/lfunc.h src/lstring.h src/lgc.h \
+ src/lundump.h
+.cache/lutf8lib.o: src/lutf8lib.c src/lprefix.h src/lua.h src/luaconf.h \
+ src/lauxlib.h src/lualib.h
+.cache/lvm.o: src/lvm.c src/lprefix.h src/lua.h src/luaconf.h src/ldebug.h \
+ src/lstate.h src/lobject.h src/llimits.h src/ltm.h src/lzio.h src/lmem.h \
+ src/ldo.h src/lfunc.h src/lgc.h src/lopcodes.h src/lstring.h \
+ src/ltable.h src/lvm.h src/ljumptab.h
+.cache/lzio.o: src/lzio.c src/lprefix.h src/lua.h src/luaconf.h src/llimits.h \
+ src/lmem.h src/lstate.h src/lobject.h src/ltm.h src/lzio.h

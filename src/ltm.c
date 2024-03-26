@@ -29,7 +29,7 @@ static const char udatatypename[] = "userdata";
 
 LUAI_DDEF const char *const luaT_typenames_[LUA_TOTALTYPES] = {
   "no value",
-  "nil", "boolean", udatatypename, "number",
+  "null", "boolean", udatatypename, "number",
   "string", "table", "function", udatatypename, "thread",
   "upvalue", "proto" /* these last cases are used for tests only */
 };
@@ -235,8 +235,7 @@ int luaT_callorderiTM (lua_State *L, const TValue *p1, int v2,
 }
 
 
-void luaT_adjustvarargs (lua_State *L, int nfixparams, CallInfo *ci,
-                         const Proto *p) {
+void luaT_adjustvarargs (lua_State *L, int nfixparams, CallInfo *ci, const Proto *p) {
   int i;
   int actual = cast_int(L->top.p - ci->func.p) - 1;  /* number of arguments */
   int nextra = actual - nfixparams;  /* number of extra arguments */

@@ -807,7 +807,7 @@ static void statlist (LexState *ls) {
       statement(ls);
       return;  /* 'return' must be last statement */
     }
-
+    
     statement(ls);
   }
 }
@@ -1137,7 +1137,9 @@ static void suffixedexp (LexState *ls, expdesc *v) {
         funcargs(ls, v, line);
         break;
       }
-      case '(': case TK_STRING: case '{': {  /* funcargs */
+      case '(': 
+      case TK_STRING: 
+      case '{': {  /* funcargs */
         luaK_exp2nextreg(fs, v);
         funcargs(ls, v, line);
         break;
@@ -1665,6 +1667,7 @@ static void test_then_block (LexState *ls, int *escapelist) {
 
     if (block_follow(ls)) {  /* jump is the entire block? */
       leaveblock(fs);
+      checknext(ls, '}'); //end of block if the break statement
       return;  /* and that is it */
     } else  /* must skip over 'then' part if condition is false */
       jf = luaK_jump(fs);

@@ -442,15 +442,16 @@ static void interror (lua_State *L, int arg) {
 LUALIB_API lua_Integer luaL_checkinteger (lua_State *L, int arg) {
   int isnum;
   lua_Integer d = lua_tointegerx(L, arg, &isnum);
+
   if (l_unlikely(!isnum)) {
     interror(L, arg);
   }
+
   return d;
 }
 
 
-LUALIB_API lua_Integer luaL_optinteger (lua_State *L, int arg,
-                                                      lua_Integer def) {
+LUALIB_API lua_Integer luaL_optinteger (lua_State *L, int arg, lua_Integer def) {
   return luaL_opt(L, luaL_checkinteger, arg, def);
 }
 
@@ -908,7 +909,7 @@ LUALIB_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len) {
         lua_pushstring(L, (lua_toboolean(L, idx) ? "true" : "false"));
         break;
       case LUA_TNIL:
-        lua_pushliteral(L, "nil");
+        lua_pushliteral(L, "null");
         break;
       default: {
         int tt = luaL_getmetafield(L, idx, "__name");  /* try name */
@@ -991,15 +992,17 @@ LUALIB_API void luaL_requiref (lua_State *L, const char *modname,
 }
 
 
-LUALIB_API void luaL_addgsub (luaL_Buffer *b, const char *s,
-                                     const char *p, const char *r) {
+LUALIB_API void luaL_addgsub (luaL_Buffer *b, const char *s, const char *p, const char *r) {
   const char *wild;
   size_t l = strlen(p);
+
   while ((wild = strstr(s, p)) != NULL) {
     luaL_addlstring(b, s, wild - s);  /* push prefix */
     luaL_addstring(b, r);  /* push replacement in place of pattern */
     s = wild + l;  /* continue after 'p' */
   }
+
+
   luaL_addstring(b, s);  /* push last suffix */
 }
 

@@ -1,8 +1,10 @@
 # Prerequisites
 *.d
 *.swp
-axon 
-axonc
+ease 
+easec
+
+old/*
 
 # Object files
 *.o

@@ -1,0 +1,4 @@
+local json = require "example/04/json"
+
+str = "{\"value\": 42}"
+json.decode(str)

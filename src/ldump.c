@@ -8,7 +8,7 @@
 #define LUA_CORE
 
 #include "lprefix.h"
-
+#include "ldump.h"
 
 #include <limits.h>
 #include <stddef.h>
@@ -16,7 +16,6 @@
 #include "lua.h"
 
 #include "lobject.h"
-#include "lstate.h"
 #include "lundump.h"
 
 
@@ -214,8 +213,7 @@ static void dumpHeader (DumpState *D) {
 /*
 ** dump Lua function as precompiled chunk
 */
-int luaU_dump(lua_State *L, const Proto *f, lua_Writer w, void *data,
-              int strip) {
+int luaU_dump(lua_State *L, const Proto *f, lua_Writer w, void *data, int strip) {
   DumpState D;
   D.L = L;
   D.writer = w;

@@ -1,106 +1,94 @@
-# Makefile for installing Lua
-# See doc/readme.html for installation and customization instructions.
+CC=gcc
+CFLAGS=-Wall -Wextra -Ofast -DLUA_COMPAT_5_3
+LIBS=-lm
 
-# == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
+CACHE=.cache
+OUTPUT=$(CACHE)/release
 
-# Your platform. See PLATS for possible values.
-PLAT= guess
+EASE_TARGET = ease
+EASEC_TARGET = easec
 
-# Where to install. The installation starts in the src and doc directories,
-# so take care if INSTALL_TOP is not an absolute path. See the local target.
-# You may want to make INSTALL_LMOD and INSTALL_CMOD consistent with
-# LUA_ROOT, LUA_LDIR, and LUA_CDIR in luaconf.h.
-INSTALL_TOP= /usr
-INSTALL_BIN= $(INSTALL_TOP)/bin
-INSTALL_INC= $(INSTALL_TOP)/include
-INSTALL_LIB= $(INSTALL_TOP)/lib
-INSTALL_MAN= $(INSTALL_TOP)/man/man1
-INSTALL_LMOD= $(INSTALL_TOP)/share/lua/$V
-INSTALL_CMOD= $(INSTALL_TOP)/lib/lua/$V
+ifeq ($(OS),Windows_NT)
+else
+	EASE_TARGET = ease
+	EASEC_TARGET = easec
 
-# How to install. If your install program does not support "-p", then
-# you may have to run ranlib on the installed liblua.a.
-INSTALL= install -p
-INSTALL_EXEC= $(INSTALL) -m 0755
-INSTALL_DATA= $(INSTALL) -m 0644
-#
-# If you don't have "install" you can use "cp" instead.
-# INSTALL= cp -p
-# INSTALL_EXEC= $(INSTALL)
-# INSTALL_DATA= $(INSTALL)
+	CFLAGS += -DLUA_USE_LINUX 
+endif
 
-# Other utilities.
-MKDIR= mkdir -p
-RM= rm -f
 
-# == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
+CORE_MODULE += lapi.o 
+CORE_MODULE += lcode.o 
+CORE_MODULE += lctype.o 
+CORE_MODULE += ldebug.o 
+CORE_MODULE += ldo.o 
+CORE_MODULE += ldump.o 
+CORE_MODULE += lfunc.o 
+CORE_MODULE += lgc.o 
+CORE_MODULE += llex.o 
+CORE_MODULE += lmem.o 
+CORE_MODULE += lobject.o 
+CORE_MODULE += lopcodes.o 
+CORE_MODULE += lparser.o 
+CORE_MODULE += lstate.o 
+CORE_MODULE += lstring.o 
+CORE_MODULE += ltable.o 
+CORE_MODULE += ltm.o 
+CORE_MODULE += lundump.o 
+CORE_MODULE += lvm.o 
+CORE_MODULE += lzio.o 
+CORE_MODULE += linit.o
 
-# Convenience platforms targets.
-PLATS= guess aix bsd c89 freebsd generic ios linux linux-readline macosx mingw posix solaris
+CORE_MODULE += lauxlib.o 
+CORE_MODULE += lbaselib.o 
+CORE_MODULE += lcorolib.o 
+CORE_MODULE += ldblib.o 
+CORE_MODULE += liolib.o 
+CORE_MODULE += lmathlib.o 
+CORE_MODULE += loadlib.o 
+CORE_MODULE += loslib.o 
+CORE_MODULE += lstrlib.o 
+CORE_MODULE += ltablib.o 
+CORE_MODULE += lutf8lib.o 
+CORE_OBJ=$(addprefix $(CACHE)/,$(CORE_MODULE))
 
-# What to install.
-TO_BIN= lua luac
-TO_INC= lua.h luaconf.h lualib.h lauxlib.h lua.hpp
-TO_LIB= liblua.a
-TO_MAN= lua.1 luac.1
 
-# Lua version and release.
-V= 5.4
-R= $V.6
+EASE_MODULE += lua.o
+EASE_MODULE += $(CORE_MODULE)
+EASE_OBJ=$(addprefix $(CACHE)/,$(EASE_MODULE))
 
-# Targets start here.
-all:	$(PLAT)
 
-$(PLATS) help test clean:
-	@cd src && $(MAKE) $@
+EASEC_MODULE += luac.o
+EASEC_MODULE += $(CORE_MODULE)
+EASEC_OBJ=$(addprefix $(CACHE)/,$(EASEC_MODULE))
 
-install: dummy
-	cd src && $(MKDIR) $(INSTALL_BIN) $(INSTALL_INC) $(INSTALL_LIB) $(INSTALL_MAN) $(INSTALL_LMOD) $(INSTALL_CMOD)
-	cd src && $(INSTALL_EXEC) $(TO_BIN) $(INSTALL_BIN)
-	cd src && $(INSTALL_DATA) $(TO_INC) $(INSTALL_INC)
-	cd src && $(INSTALL_DATA) $(TO_LIB) $(INSTALL_LIB)
-	cd doc && $(INSTALL_DATA) $(TO_MAN) $(INSTALL_MAN)
 
-uninstall:
-	cd src && cd $(INSTALL_BIN) && $(RM) $(TO_BIN)
-	cd src && cd $(INSTALL_INC) && $(RM) $(TO_INC)
-	cd src && cd $(INSTALL_LIB) && $(RM) $(TO_LIB)
-	cd doc && cd $(INSTALL_MAN) && $(RM) $(TO_MAN)
+all: env $(CORE_OBJ) $(EASE_OBJ) $(EASEC_OBJ)
+	$(CC) $(CFLAGS) $(EASE_OBJ) $(LIBS) -o $(OUTPUT)/$(EASE_TARGET)
+	$(CC) $(CFLAGS) $(EASEC_OBJ) $(LIBS) -o $(OUTPUT)/$(EASEC_TARGET)
 
-local:
-	$(MAKE) install INSTALL_TOP=../install
 
-# make may get confused with install/ if it does not support .PHONY.
-dummy:
+%.o:
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Echo config parameters.
-echo:
-	@cd src && $(MAKE) -s echo
-	@echo "PLAT= $(PLAT)"
-	@echo "V= $V"
-	@echo "R= $R"
-	@echo "TO_BIN= $(TO_BIN)"
-	@echo "TO_INC= $(TO_INC)"
-	@echo "TO_LIB= $(TO_LIB)"
-	@echo "TO_MAN= $(TO_MAN)"
-	@echo "INSTALL_TOP= $(INSTALL_TOP)"
-	@echo "INSTALL_BIN= $(INSTALL_BIN)"
-	@echo "INSTALL_INC= $(INSTALL_INC)"
-	@echo "INSTALL_LIB= $(INSTALL_LIB)"
-	@echo "INSTALL_MAN= $(INSTALL_MAN)"
-	@echo "INSTALL_LMOD= $(INSTALL_LMOD)"
-	@echo "INSTALL_CMOD= $(INSTALL_CMOD)"
-	@echo "INSTALL_EXEC= $(INSTALL_EXEC)"
-	@echo "INSTALL_DATA= $(INSTALL_DATA)"
 
-# Echo pkg-config data.
-pc:
-	@echo "version=$R"
-	@echo "prefix=$(INSTALL_TOP)"
-	@echo "libdir=$(INSTALL_LIB)"
-	@echo "includedir=$(INSTALL_INC)"
+-include dep.list
 
-# Targets that do not create files (not all makes understand .PHONY).
-.PHONY: all $(PLATS) help test clean install uninstall local dummy echo pc
 
-# (end of Makefile)
+.PHONY: env dep clean
+
+
+dep:
+	$(CC)  -MM src/*.c | sed 's|[a-zA-Z0-9_-]*\.o|$(CACHE)/&|' > dep.list
+
+
+env:
+	mkdir -pv $(CACHE)
+	mkdir -pv $(OUTPUT)
+
+
+clean: 
+	rm -rvf $(OUTPUT)
+	rm -vf $(CACHE)/*.o
+
+

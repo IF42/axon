@@ -27,8 +27,10 @@ static int luaB_print (lua_State *L) {
   for (i = 1; i <= n; i++) {  /* for each argument */
     size_t l;
     const char *s = luaL_tolstring(L, i, &l);  /* convert it to string */
+
     if (i > 1)  /* not the first element? */
       lua_writestring("\t", 1);  /* add a tab before it */
+
     lua_writestring(s, l);  /* print it */
     lua_pop(L, 1);  /* pop result */
   }
@@ -137,7 +139,7 @@ static int luaB_getmetatable (lua_State *L) {
 static int luaB_setmetatable (lua_State *L) {
   int t = lua_type(L, 2);
   luaL_checktype(L, 1, LUA_TTABLE);
-  luaL_argexpected(L, t == LUA_TNIL || t == LUA_TTABLE, 2, "nil or table");
+  luaL_argexpected(L, t == LUA_TNIL || t == LUA_TTABLE, 2, "null or table");
   if (l_unlikely(luaL_getmetafield(L, 1, "__metatable") != LUA_TNIL))
     return luaL_error(L, "cannot change a protected metatable");
   lua_settop(L, 2);

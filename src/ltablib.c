@@ -131,8 +131,7 @@ static int tmove (lua_State *L) {
         lua_geti(L, 1, f + i);
         lua_seti(L, tt, t + i);
       }
-    }
-    else {
+    } else {
       for (i = n - 1; i >= 0; i--) {
         lua_geti(L, 1, f + i);
         lua_seti(L, tt, t + i);
@@ -180,10 +179,10 @@ static int tconcat (lua_State *L) {
 
 static int tpack (lua_State *L) {
   int i;
-  int n = lua_gettop(L);  /* number of elements to pack */
+  int n = lua_gettop(L) - 1;  /* number of elements to pack */
   lua_createtable(L, n, 1);  /* create result table */
   lua_insert(L, 1);  /* put it at index 1 */
-  for (i = n; i >= 1; i--)  /* assign elements */
+  for (i = n; i >= 0; i--)  /* assign elements */
     lua_seti(L, 1, i);
   lua_pushinteger(L, n);
   lua_setfield(L, 1, "n");  /* t.n = number of elements */
@@ -193,16 +192,21 @@ static int tpack (lua_State *L) {
 
 static int tunpack (lua_State *L) {
   lua_Unsigned n;
-  lua_Integer i = luaL_optinteger(L, 2, 1);
-  lua_Integer e = luaL_opt(L, luaL_checkinteger, 3, luaL_len(L, 1));
-  if (i > e) return 0;  /* empty range */
-  n = (lua_Unsigned)e - i;  /* number of elements minus 1 (avoid overflows) */
-  if (l_unlikely(n >= (unsigned int)INT_MAX  ||
-                 !lua_checkstack(L, (int)(++n))))
+  lua_Integer i = luaL_optinteger(L, 2, 0);
+  lua_Integer e = luaL_opt(L, luaL_checkinteger, 3, luaL_len(L, 1)) - 1; //TODO: solve where to modifie the value to get (value - 1)
+
+  if (i > e) 
+      return 0;  /* empty range */
+
+  n = (lua_Unsigned) e - i;  /* number of elements minus 1 (avoid overflows) */
+
+  if (l_unlikely(n >= (unsigned int) INT_MAX || !lua_checkstack(L, (int)(++n))))
     return luaL_error(L, "too many results to unpack");
+
   for (; i < e; i++) {  /* push arg[i..e - 1] (to avoid overflows) */
     lua_geti(L, 1, i);
   }
+
   lua_geti(L, 1, e);  /* push last element */
   return (int)n;
 }
